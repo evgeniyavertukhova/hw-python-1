@@ -6,4 +6,4 @@ browser.element('[name="text"]').should(be.blank).type('yashaka/selene').press_e
 browser.element('body').should(have.text('selene'))
 
 # browser.element('[id="search"]').should(have.text('Selene - User-oriented Web UI browser tests in Python'))
-test test
+"text test"
