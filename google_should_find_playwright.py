@@ -1,8 +1,17 @@
-from selene import browser, be, have
+from playwright.sync_api import sync_playwright, expect
 
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=False)
+    page = browser.new_page()
 
-browser.open('https://ya.ru')
-browser.element('[name="text"]').should(be.blank).type('yashaka/selene').press_enter()
-browser.element('body').should(have.text('selene'))
+    page.goto('https://ya.ru')
 
-# browser.element('[id="search"]').should(have.text('Selene - User-oriented Web UI browser tests in Python'))
+    search_input = page.locator('[name="text"]')
+    expect(search_input).to_be_empty()
+    search_input.fill('yashaka/selene')
+    search_input.press('Enter')
+
+    # Ждём, пока появится результат
+    expect(page.locator('body')).to_contain_text('selene')
+
+    browser.close()
